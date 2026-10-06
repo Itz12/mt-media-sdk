@@ -1,0 +1,18 @@
+# Required
+Django>=4.2,<6.0
+djangorestframework>=3.14
+channels>=4.0
+celery>=5.3
+
+# Recommended for production
+channels-redis>=4.1      # Redis-backed channel layer (in-memory layer is dev-only)
+redis>=5.0                # only if using media.progress.backends.RedisProgressBackend
+
+# Optional, feature-specific
+boto3>=1.28                # only if UPLOAD_STORAGE_BACKEND = "s3"
+python-magic>=0.4.27        # only for content-sniffing in validators.mime_sniff_validator
+clamd>=1.0.2                 # only if UPLOAD_VIRUS_SCANNER = "media.validators.ClamdVirusScanner"
+
+# Testing
+pytest>=7.4
+pytest-django>=4.7
