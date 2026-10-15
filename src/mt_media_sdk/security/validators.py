@@ -165,6 +165,10 @@ def _safe_setting(name: str, default):
     sentinel = object()
     try:
         from django.conf import settings as _settings  # type: ignore
+        # Never initialize LazySettings from an SDK imported by settings.py.
+        # That would capture a partially executed service configuration.
+        if not _settings.configured:
+            return os.environ.get(name, default)
         configured = getattr(_settings, name, sentinel)
         if configured is not sentinel:
             return configured

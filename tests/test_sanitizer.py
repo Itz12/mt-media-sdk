@@ -232,3 +232,24 @@ def test_scan_archive_rar_mocked(monkeypatch):
     bio = io.BytesIO(b"fake rar")
     result = mod.scan_archive(bio)
     assert result is not None
+
+
+def test_security_imports_do_not_initialize_django_settings():
+    import os
+    from pathlib import Path
+    import subprocess
+    import sys
+
+    environment = dict(os.environ)
+    environment["DJANGO_SETTINGS_MODULE"] = "module_that_must_not_be_imported"
+    environment["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src")
+    result = subprocess.run(
+        [sys.executable, "-c",
+         "from django.conf import settings; "
+         "assert not settings.configured; "
+         "import mt_media_sdk.security.sanitizer; "
+         "import mt_media_sdk.security.validators; "
+         "assert not settings.configured"],
+        env=environment, capture_output=True, text=True,
+    )
+    assert result.returncode == 0, result.stderr

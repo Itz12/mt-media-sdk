@@ -8,7 +8,7 @@ processing, progress tracking, and service integration.
 From the public Git repository:
 
 ```bash
-python -m pip install "mt-media-sdk @ git+https://github.com/must-tip/mt_media_sdk.git"
+python -m pip install "mt-media-sdk @ git+https://github.com/itz12/mt_media_sdk.git"
 ```
 
 Or from a package index:
